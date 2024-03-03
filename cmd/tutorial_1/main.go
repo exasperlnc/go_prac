@@ -77,3 +77,23 @@ func arrayPrac(){
 	intSlice = append(intSlice, 7)
 	fmt.Printf("\nAfter appending, the length was %v with capacity %v", len(intSlice), cap(intSlice))
 }
+
+func mapPrac(){
+	var myMap map[string]uint8 = make(map[string]uint8)
+	fmt.Println(myMap)
+
+	var map2 = map[string]uint8{"Jim":23, "Carlos":47}
+	fmt.Println(map2["Adam"])
+	// maps always return something even if the key doesn't exist
+
+	var jasonAge, ok = map2["Jason"]
+	if ok{
+		fmt.Printf("Jason's age is %v", jasonAge)
+	}else{
+		fmt.Printf("Invalid")
+	}
+
+	for name, age := range map2{
+		fmt.Printf("Name: %v, Age: %v\n", name, age)
+	}
+}
