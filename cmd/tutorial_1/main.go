@@ -3,6 +3,7 @@ import (
 	"fmt"
 	"errors"
 	"unicode/utf8"
+	"time"
 )
 
 func main(){
@@ -25,6 +26,7 @@ func main(){
 	fmt.Println(result)
 	fmt.Println(remainder, remainder)
 	arrayPrac()
+	sliceRace()
 }
 
 func printMe(printValue string){
@@ -100,4 +102,21 @@ func mapPrac(){
 	for name, age := range map2{
 		fmt.Printf("Name: %v, Age: %v\n", name, age)
 	}
+}
+
+func sliceRace(){
+	var n int = 1000000
+	var slowSlice = []int{}
+	var fastSlice = make([]int, 0, n)
+
+	fmt.Printf("Total time without preallocation: %v\n", timeLoop(slowSlice, n))
+	fmt.Printf("Total time with preallocation: %v\n", timeLoop(fastSlice, n))
+}
+
+func timeLoop(slice[]int, n int) time.Duration{
+	var t0 = time.Now()
+	for len(slice)<n{
+		slice = append(slice,1)
+	}
+	return time.Since(t0)
 }
