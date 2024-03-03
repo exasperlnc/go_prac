@@ -3,6 +3,11 @@ import "fmt"
 import "unicode/utf8"
 
 func main(){
+	printValue := "Happy Birthday Adrian"
+	printMe(printValue)
+}
+
+func printMe(printValue string){
 	var intNum int16 = 32767
 	fmt.Println(intNum)
 
@@ -23,4 +28,5 @@ func main(){
 
 	const myConst float64 = 3.14159265
 
+	fmt.Println(printValue)
 }
