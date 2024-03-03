@@ -24,6 +24,7 @@ func main(){
 	fmt.Println(result, remainder)
 	fmt.Println(result)
 	fmt.Println(remainder, remainder)
+	arrayPrac()
 }
 
 func printMe(printValue string){
@@ -60,4 +61,19 @@ func intDivision(numerator int, denominator int) (int, int, error) {
 	var result int = numerator/denominator
 	var remainder int = numerator%denominator
 	return result, remainder, err
+}
+
+func arrayPrac(){
+	var intArr [3]int32
+	// default values are 0, so current array is int32 [0,0,0]
+	// int32 is 4 bytes, so this array is 12 bytes 
+	// 0 indexed
+	intArr[1] = 5
+	fmt.Println(intArr[0])
+	fmt.Println(intArr[1:3])
+
+	intSlice := []int32{1,2,3}
+	fmt.Printf("The original length of the slice was %v with capacity %v", len(intSlice), cap(intSlice))
+	intSlice = append(intSlice, 7)
+	fmt.Printf("\nAfter appending, the length was %v with capacity %v", len(intSlice), cap(intSlice))
 }
