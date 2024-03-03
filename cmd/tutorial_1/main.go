@@ -76,6 +76,10 @@ func arrayPrac(){
 	fmt.Printf("The original length of the slice was %v with capacity %v", len(intSlice), cap(intSlice))
 	intSlice = append(intSlice, 7)
 	fmt.Printf("\nAfter appending, the length was %v with capacity %v", len(intSlice), cap(intSlice))
+
+	for i:=0; i<=10; i++{
+		fmt.Println(i)
+	}
 }
 
 func mapPrac(){
