@@ -1,10 +1,27 @@
 package main
-import "fmt"
-import "unicode/utf8"
+import (
+	"fmt"
+	"errors"
+	"unicode/utf8"
+)
 
 func main(){
 	printValue := "Happy Birthday Adrian"
 	printMe(printValue)
+
+	numerator := 27
+	denominator := 3
+	var result, remainder, err = intDivision(numerator, denominator)
+	if err!=nil{
+		fmt.Println(err.Error())
+	}
+
+	
+	fmt.Println(result, remainder)
+	fmt.Println(result)
+	fmt.Println(remainder, remainder)
+	fmt.Printf("The result of the division is %v and the remainder is %v", result, remainder)
+
 }
 
 func printMe(printValue string){
@@ -27,6 +44,18 @@ func printMe(printValue string){
 	fmt.Println(myVar)
 
 	const myConst float64 = 3.14159265
+	fmt.Println(myConst)
 
 	fmt.Println(printValue)
+}
+
+func intDivision(numerator int, denominator int) (int, int, error) {
+	var err error
+	if denominator==0 {
+		err = errors.New("Cannot Divide by Zero")
+	}
+	
+	var result int = numerator/denominator
+	var remainder int = numerator%denominator
+	return result, remainder, err
 }
