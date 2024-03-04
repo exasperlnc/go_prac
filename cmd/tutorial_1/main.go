@@ -7,6 +7,36 @@ import (
 	"time"
 	"unicode/utf8"
 )
+type gasEngine struct{
+	mpg uint8
+	gallons uint8
+	ownerInfo owner
+}
+
+type owner struct{
+	name string
+}
+
+type electricEngine struct{
+	mpkwh uint8
+	kwh uint8
+}
+
+type engine interface{
+	milesLeft() uint8
+}
+
+func canMakeIt(e engine, miles uint8){
+	if miles<=e.milesLeft(){
+		fmt.Println("\nYou can make it there!")
+	}else{
+		fmt.Println("\nNeed to fuel up first!")
+	}
+}
+
+func (e gasEngine) milesLeft() uint8 {
+	return e.gallons*e.mpg
+}
 
 func main(){
 	printValue := "Happy Birthday Adrian"
@@ -30,6 +60,12 @@ func main(){
 	arrayPrac()
 	sliceRace()
 	stringPrac()
+	var myEngine gasEngine = gasEngine{25,15, owner{"Logurt"}}
+	fmt.Printf("\nThe engine's original mpg was %v", myEngine.mpg)
+	myEngine.mpg = 30
+	fmt.Printf("\nThe engine's updated mpg was %v", myEngine.mpg)
+	fmt.Printf("\nThe owner of the engine is %v", myEngine.ownerInfo)
+	canMakeIt(myEngine, 50)
 }
 
 func printMe(printValue string){
