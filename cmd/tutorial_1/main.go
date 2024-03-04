@@ -6,7 +6,10 @@ import (
 	"strings"
 	"time"
 	"unicode/utf8"
+	"math/rand"
+	"sync"
 )
+
 type gasEngine struct{
 	mpg uint8
 	gallons uint8
@@ -38,6 +41,9 @@ func (e gasEngine) milesLeft() uint8 {
 	return e.gallons*e.mpg
 }
 
+var wg = sync.WaitGroup{}
+var results = []string{}
+
 func main(){
 	printValue := "Happy Birthday Adrian"
 	printMe(printValue)
@@ -66,6 +72,32 @@ func main(){
 	fmt.Printf("\nThe engine's updated mpg was %v", myEngine.mpg)
 	fmt.Printf("\nThe owner of the engine is %v", myEngine.ownerInfo)
 	canMakeIt(myEngine, 50)
+
+	var p *int32 = new(int32)
+	var i int32
+	fmt.Printf("\nThe value p points to is: %v. The address p points to is %v", *p, p)
+	fmt.Printf("\nThe value of i is %v", i)
+	p = &i
+	// this makes p point to the value of i. 
+	// this is not quite the same as setting p = i, because changing i after setting p = *i will ALSO change the value of p. 
+
+	var dbData = []string{"id1", "id2", "id3", "id4", "id5"}
+	t0 := time.Now()
+	for i:=0; i<len(dbData); i++{
+		dbCall(i,dbData)
+	}
+	fmt.Printf("\nTotal execution time: %v", time.Since(t0))
+
+	// with waitgroup(concurrency)
+	t1 := time.Now()
+	m := sync.Mutex{}
+	
+	for i:=0; i<len(dbData); i++{
+		wg.Add(1)
+		go dbCallConcurrent(i,dbData, m)
+	}
+	fmt.Printf("\nTotal execution time: %v", time.Since(t1))
+	fmt.Printf("\nThe results are %v", results)
 }
 
 func printMe(printValue string){
@@ -167,4 +199,22 @@ for i := range strSlice{
 }
 var catStr = strBuilder.String()
 fmt.Printf("\n%v", catStr)
+}
+
+func dbCall(i int, dbData []string){
+	var delay float32 = rand.Float32()*2000
+	time.Sleep(time.Duration(delay)*time.Millisecond)
+	fmt.Println("The result from teh database is :", dbData[i])
+	results = append(results, dbData[i])
+}
+
+func dbCallConcurrent(i int, dbData []string, m sync.Mutex){
+	var delay float32 = rand.Float32()*2000
+	time.Sleep(time.Duration(delay)*time.Millisecond)
+	fmt.Println("The result from teh database is :", dbData[i])
+	m.Lock()
+	results = append(results, dbData[i])
+	// the line above modifies the data, and so must be locked to prevent the concurrency from tripping over itself
+	m.Unlock()
+	wg.Done()
 }
