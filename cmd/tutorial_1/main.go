@@ -1,9 +1,11 @@
 package main
+
 import (
-	"fmt"
 	"errors"
-	"unicode/utf8"
+	"fmt"
+	"strings"
 	"time"
+	"unicode/utf8"
 )
 
 func main(){
@@ -27,6 +29,7 @@ func main(){
 	fmt.Println(remainder, remainder)
 	arrayPrac()
 	sliceRace()
+	stringPrac()
 }
 
 func printMe(printValue string){
@@ -119,4 +122,13 @@ func timeLoop(slice[]int, n int) time.Duration{
 		slice = append(slice,1)
 	}
 	return time.Since(t0)
+}
+func stringPrac(){
+var strSlice = []string{"L","o","g","u","r","t"}
+var strBuilder strings.Builder
+for i := range strSlice{
+	strBuilder.WriteString(strSlice[i])
+}
+var catStr = strBuilder.String()
+fmt.Printf("\n%v", catStr)
 }
