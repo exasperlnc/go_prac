@@ -99,6 +99,7 @@ func main(){
 	fmt.Printf("\nTotal execution time: %v", time.Since(t1))
 	fmt.Printf("\nThe results are %v\n", results)
 	channelPrac()
+	genericPrac()
 }
 
 func printMe(printValue string){
@@ -233,4 +234,27 @@ func process(c chan int){
 	for i:=0; i<5; i++{
 		c <- i
 	}
+}
+
+func genericPrac(){
+	var intSlice = []int{1,2,3}
+	fmt.Println(sumSlice[int](intSlice))
+
+	var float32Slice = []float32{1,2,3}
+	fmt.Println(sumSlice[float32](float32Slice))
+	var emptySlice = []bool{}
+	fmt.Println(isEmpty(emptySlice))
+	fmt.Println(isEmpty(intSlice))
+}
+
+func sumSlice[T int | float32 | float64](slice []T) T{
+	var sum T
+	for _, v := range slice{
+		sum += v
+	}
+	return sum
+}
+
+func isEmpty[T any](slice []T) bool{
+	return len(slice)==0
 }
