@@ -97,7 +97,8 @@ func main(){
 		go dbCallConcurrent(i,dbData, m)
 	}
 	fmt.Printf("\nTotal execution time: %v", time.Since(t1))
-	fmt.Printf("\nThe results are %v", results)
+	fmt.Printf("\nThe results are %v\n", results)
+	channelPrac()
 }
 
 func printMe(printValue string){
@@ -217,4 +218,19 @@ func dbCallConcurrent(i int, dbData []string, m sync.Mutex){
 	// the line above modifies the data, and so must be locked to prevent the concurrency from tripping over itself
 	m.Unlock()
 	wg.Done()
+}
+
+func channelPrac(){
+	var c = make(chan int, 5)
+	go process(c)
+	for i:= range c{
+		fmt.Println(i)
+	}
+}
+
+func process(c chan int){
+	defer close(c)
+	for i:=0; i<5; i++{
+		c <- i
+	}
 }
